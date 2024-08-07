@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "//mybatis.org/DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.exam.mapper.ScheduleMapper">
+    <update id="createTable">
+        CREATE TABLE IF NOT EXISTS schedule(
+            id SERIAL PRIMARY KEY,
+            start_date DATE NOT NULL,
+            end_date DATE NOT NULL,
+            color VARCHAR(7) DEFAULT '#FFFFFF',
+            title VARCHAR(20) NOT NULL,
+            description VARCHAR(255),
+            file VARCHAR(255),
+            repeat_term VARCHAR(8) DEFAULT 'ONCE',
+            alarm_time VARCHAR(10),
+            CONSTRAINT color_hex_constraint CHECK (color is null or color ~* '^#[a-f0-9]{6}$'),
+            CONSTRAINT repeat_term_constraint CHECK (repeat_term is null or repeat_term in ('ONCE', 'DAILY', 'WEEKLY', 'MONTHLY', 'YEARLY'))
+        )
+    </update>
+
+    <update id="dropTable">
+        DROP TABLE schedule
+    </update>
+
+    <insert id="save" parameterType="com.example.exam.Schedule">
+        INSERT INTO schedule(start_date, end_date, title)
+        VALUES (#{start_date}, #{end_date}, #{title})
+    </insert>
+
+    <select id="list" resultType="com.example.exam.Schedule">
+        SELECT *
+        FROM schedule
+    </select>
+
+    <select id="find" parameterType="int">
+        SELECT *
+        FROM schedule
+        WHERE id=#{id}
+    </select>
+</mapper>

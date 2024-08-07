@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/scheduler
+    username: postgres
+    password:
+    diverClassName: org.postgresql.Driver
+
+
+mybatis:
+  mapper-locations: "classpath:mybatis/mapper/*.xml"
+  config-location: "classpath:mybatis/MybatisConfig.xml"
